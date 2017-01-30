@@ -21,7 +21,7 @@ if(empty($_REQUEST["userEmail"]) || empty($_REQUEST["userPassword"]) || empty($_
   htmlentities : protege de injeccion de codigo
  */
 
-$username = htmlentities($_REQUEST["userEmail"]);
+$userEmail = htmlentities($_REQUEST["userEmail"]);
 $userPassword = htmlentities($_REQUEST["userPassword"]);
 $userFirstName = htmlentities($_REQUEST["userFirstName"]);
 $userLastName = htmlentities($_REQUEST["userLastName"]);
@@ -47,7 +47,26 @@ if(!empty($userDetails)){
   return;
 }
 
+// REGISTER NEW USER
+// En caso de no encontrar el email podemos añadirlo a la BD user y establecer la conexion
 
+$result = $dao->registerUser($userEmail, $userFirstName, $userLastName, $secured_password, $salt);
 
+if($result){
+  $userDetails = $dao->getUserDetails($userEmail);
+  $returnValue["status"] = "200";
+  $returnValue["message"] = "Successfully registered new user";
+  $returnValue["userId"] = $userDetails["user_id"];
+  $returnValue["userFirstName"] = $userDetails["first_name"];
+  $returnValue["userLastName"] = $userDetails["last_name"];
+  $returnValue["userEmail"] = $userDetails["email"];
+}else{   // ERROR DE REGISTRO
+  $returnValue["status"] = "400";
+  $returnValue["message"] = "Colud not register user with provided information";
+}
+
+$dao->closeConnection();
+
+echo json_encode($returnValue);
 
  ?>
