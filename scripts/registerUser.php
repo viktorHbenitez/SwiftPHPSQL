@@ -1,6 +1,9 @@
 <?php
-require("../db/Conn.php");
+//require("../db/Conn.php");
 require("../db/MySQLDAO.php");
+
+// AGREGAR NIVEL DE SEGURIDAD ARCHIVO DE NUESTRA DB
+$config = parse_ini_file('../../swiftRegisterApp.ini');  //Tiene parametros de nuestra DB al igual que Conn.php
 
 $returnValue = array();  // instancia de un array en php tendra informacion estado de la conexion y mensaje de error
 
@@ -32,8 +35,14 @@ $salt = openssl_random_pseudo_bytes(16);  // openssl_random_pseudo_bytes(16): ge
 $secured_password = sha1($userPassword . $salt);
 
 
+// get the attributes from SwiftRegisterApp.ini
+$dbhost = trim($config["dbhost"]);
+$dbuser = trim($config["dbuser"]);
+$dbpass = trim($config["dbpass"]);
+$dbname = trim($config["dbname"]);
+
 // INSTANCIA PARA ESTABLECER LA CONEXION CON LOS PARAMETROS DE NUESTRA BASE DE DATOS
-$dao = new MySQLDAO(Conn::$dbhost , Conn::$dbuser, Conn::$dbpass, Conn::$dbname);  // Parametros leidos desde Conn.php, acceder variable estatica Clase::$Variable
+$dao = new MySQLDAO($dbhost , $dbuser, $dbpass, $dbname);  // Parametros leidos desde Conn.php, acceder variable estatica Clase::$Variable
 $dao->openConnection();  //ESTABLECEMOS CONEXION
 
 
