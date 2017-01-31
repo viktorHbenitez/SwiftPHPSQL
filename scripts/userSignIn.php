@@ -1,11 +1,8 @@
 <?php
-
-
 require("../db/MySQLDAO.php");  // Libreria realizar la conexion con la BD, Consultas y CRUD de la aplicacion
 
 // AGREGAR NIVEL DE SEGURIDAD ARCHIVO DE NUESTRA DB
 $config = parse_ini_file('../../swiftRegisterApp.ini');  //Tiene parametros de nuestra DB al igual que Conn.php
-
 
 $returnValue = array();
 
@@ -36,11 +33,11 @@ $dbname = trim($config["dbname"]);
 $dao = new MySQLDAO($dbhost , $dbuser, $dbpass, $dbname);  // Parametros leidos desde Conn.php, acceder variable estatica Clase::$Variable
 $dao->openConnection();  //ESTABLECEMOS CONEXION
 
-$userDetails = $dao->getUserDetails($userEmail);  // Si es encontrado el Email en la base de datos indicada en DAO lo almacena en $userDatails
+$userDetails =$dao->getUserDetails($userEmail);  // Si es encontrado el Email en la base de datos indicada en DAO lo almacena en $userDatails
 
 if(empty($userDetails)){  // Verificamos $userDetails : contenga un registro para poder usuarlo CASO VACIO
   $returnValue["status"] = "403";
-  $returnValue["message"] = "User empty";
+  $returnValue["message"] = "User not found data base";
 
   echo json_encode($returnValue);
   return;

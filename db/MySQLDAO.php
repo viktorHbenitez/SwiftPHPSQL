@@ -54,7 +54,7 @@
     public function getUserDetails($email)
     {
       $returnValue = array();
-      $sql = "SELECT * FROM user WHERE email = '" . $email . "'";  // Consulta para la BD user
+      $sql = "SELECT * FROM user WHERE email='" . $email . "'";  // Consulta para la BD user
 
       $result = $this->conn->query($sql);
       if($result != null && (mysqli_num_rows($result) >= 1 )){  // Si no es nulo y es mayor a 1 el resultado de filas obtenidas
