@@ -71,7 +71,7 @@ if($result){
   $returnValue["userEmail"] = $userDetails["email"];
 }else{   // ERROR DE REGISTRO
   $returnValue["status"] = "400";
-  $returnValue["message"] = "Colud not register user with provided information";
+  $returnValue["message"] = "Could not register user with provided information";
 }
 
 $dao->closeConnection();
